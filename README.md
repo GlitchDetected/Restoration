@@ -1,5 +1,6 @@
-Bot to restore your server
+This bot restores your server
+(I work on this bot when i'm bored)
 ---
-All code if under the MIT License so feel free to use the code for anything u want
+All the code is under the MIT License so feel free to use the code for anything you want!
 ---
 WIP⭐
