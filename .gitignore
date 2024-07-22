@@ -1,0 +1,7 @@
+*.icloud
+.DS_Store
+.vscode
+config.json
+node_modules/
+.env
+package-lock.json
